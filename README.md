@@ -1,7 +1,7 @@
 # CMPE295: Model-Based AI Testing and Automation
 
 
-## Work history
+
 Jun 06 - Jake 
 ```
 AITesting.py - Our AITesting Module Library.
