@@ -1,8 +1,9 @@
 # CMPE295: Model-Based AI Testing and Automation
 
 
-Jun 06 - Jake
-
+## Work history
+Jun 06 - Jake 
+```
 AITesting.py - Our AITesting Module Library.
 
 Sample Code With Using AITestingLib.ipynb - Sample Code about how to using the library.
@@ -17,4 +18,4 @@ NEXT TO DO
 EXTRA
 
 How can we make the model visalization?
-
+```
