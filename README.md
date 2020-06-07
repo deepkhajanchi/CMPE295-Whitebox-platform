@@ -14,6 +14,7 @@ NEXT TO DO
 4. Put the monitoring info & model info to the DB.
 5. Monitoring tool will disaply the DB info with graphic.
 
-EXTRA 
+EXTRA
+
 How can we make the model visalization?
 
