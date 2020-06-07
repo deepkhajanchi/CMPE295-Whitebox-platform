@@ -1,4 +1,5 @@
-# CMPE295
+# CMPE295 
+# Model-Based AI Testing and Automation
 
 
 AITesting.py - Our AITesting Module Library.
