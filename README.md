@@ -1,8 +1,11 @@
 # CMPE295
 
+
 AITesting.py - Library for our AITesting Module.
 
 Sample Code With Using AITestingLib.ipynb - Sample Code for how to using the library.
+
+
 
 NEXT TO DO
 1. Need to think how to send model info to the library. (For showing weights of model) 
