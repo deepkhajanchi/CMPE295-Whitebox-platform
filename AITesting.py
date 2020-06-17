@@ -20,15 +20,11 @@ class callback(tf.keras.callbacks.Callback):
         print('ccc')
     def on_epoch_end(self, epoch, logs=None):
         print('The average loss for epoch {} is {:7.2f} and mean absolute error is {:7.2f}.'.format(epoch, logs['loss'], logs['mae']))
-        #for i in range(len(model.layers)):
-        #    new_weights = model.layers[i].get_weights()
-        #    print('weights of {} layers for epoch{} is {}'.format(i+1, epoch, new_weights))
-        #if(logs.get('loss')<0.4):
-        #    self.model.stop_training = True
-
-        ###Not working to show the weights of each layers
-        ### for showing the weights of layers - Need to think how can I send Model infromation to the library###
-        ### ????? ####
+        for i in range(len(self.model.layers)):
+            new_weights = self.model.layers[i].get_weights()
+            print('weights of {} layers for epoch{} is {}'.format(i+1, epoch, new_weights))
+        if(logs.get('loss')<0.4):
+            self.model.stop_training = True
         
         
 def get_model_summary(model):
