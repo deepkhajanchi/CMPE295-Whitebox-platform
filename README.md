@@ -10,9 +10,7 @@ Jun 24 - Jake
    Show Accuracy in each batchs.
    Show layers' name & config in each layers.
    
-   *
-   Showing Accuracy in each layer is impossible. Accuracy is a result of training on every batch or every epoch. Each layer doesn't have accuracy information. 
-   AM I Correct? 
+   * Showing Accuracy in each layer is impossible. Accuracy is a result of training on every batch or every epoch. Each layer doesn't have accuracy information. AM I Correct? 
      
 ```
 AITesting.py - Our AITesting Module Library.
