@@ -14,14 +14,21 @@ class callback(tf.keras.callbacks.Callback):
         print('init self')
     def on_train_batch_end(self, batch, logs=None):
         print('For batch {}, loss is {:7.2f}.'.format(batch, logs['loss']))
+        print('For batch {}, accuracy is {:7.2f}.'.format(batch, logs['accuracy']))
     def on_test_batch_end(self, batch, logs=None):
         print('For batch {}, loss is {:7.2f}.'.format(batch, logs['loss']))
+        print('For batch {}, accuracy is {:7.2f}.'.format(batch, logs['accuracy']))
     def MyCustomCallback():
         print('ccc')
     def on_epoch_end(self, epoch, logs=None):
-        print('The average loss for epoch {} is {:7.2f} and mean absolute error is {:7.2f}.'.format(epoch, logs['loss'], logs['mae']))
+        #print('The average loss for epoch {} is {:7.2f} and mean absolute error is {:7.2f}.'.format(epoch, logs['loss'], logs['mae']))
+        print('The average loss for epoch {} is {:7.2f} and accuracy is {:7.2f}.'.format(epoch, logs['loss'], logs['accuracy']))
         for i in range(len(self.model.layers)):
+            layername = self.model.layers[i].name;
+            layerconfig = self.model.layers[i].get_config()
             new_weights = self.model.layers[i].get_weights()
+            print('Name of {} layers for epoch{} is {}'.format(i+1, epoch, layername))
+            print('Config of {} layers for epoch{} is {}'.format(i+1, epoch, layerconfig))
             print('weights of {} layers for epoch{} is {}'.format(i+1, epoch, new_weights))
         if(logs.get('loss')<0.4):
             self.model.stop_training = True
