@@ -18,14 +18,22 @@ AITesting.py - Our AITesting Module Library.
 Sample Code With Using AITestingLib.ipynb - Sample Code about how to using the library.
 
 NEXT TO DO
-1. Need to think how to send model info to the library. (For showing weights of the model) - Done Jun 16
-2. Need to define DB tables for Monitoring dashboard.
-3. Need to generate DB tables. 
-4. Put the monitoring info & model info to the DB.
-5. Monitoring tool will disaply the DB info with graphic.
+1. Logic for white box implementation. --> Algorithm and data structure
+2. Need to think how to send model info to the library. (For showing weights of the model) - Done Jun 16
+3. Need to define DB tables for Monitoring dashboard.
+4. Need to generate DB tables. 
+5. Put the monitoring info & model info to the DB.
+6. Monitoring tool will disaply the DB info with graphic.
 
 EXTRA
 
 How can we make the model visualization?
 => We are building this platform to test any AI based ML model, so we should have our own attribute in our database which is able to point relevant attribute in any ML model.
+```
+
+July 20  Deep (User Interface)
+
+```
+Basic web pages are implemented and working.
+Way of implementating visualization is almost decided. Need to discuss and implement.
 ```
