@@ -163,7 +163,8 @@ def data_dist():
     plt.xlabel('Class name');
     plt.ylabel('Quantity');
     plt.title('Data distribution');
-    
+
+
 def rename_img():
     # Rename images in each folder
     data_normalization.rename_images(phylloxera_fold, image_class='phylloxera')
