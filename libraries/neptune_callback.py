@@ -6,7 +6,7 @@ from scikitplot.metrics import plot_confusion_matrix, plot_roc
 import matplotlib.pyplot as plt
 
 
-neptune.init('chittp/sandbox', api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vdWkubmVwdHVuZS5haSIsImFwaV91cmwiOiJodHRwczovL3VpLm5lcHR1bmUuYWkiLCJhcGlfa2V5IjoiOWIyYjA2NmQtZDQ4Yy00M2E0LTkyOTktNTkyYWFmMjQzMWZmIn0=')
+neptune.init('', api_token='')
 neptune.create_experiment(name='minimal_example')
 
 class NeptuneLoggerCallback(Callback):
