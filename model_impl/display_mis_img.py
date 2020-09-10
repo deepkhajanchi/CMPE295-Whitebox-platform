@@ -9,11 +9,11 @@ from utilities import data_observation as do
 
 def display_misclassified_images(paths, rows, columns):
     from mpl_toolkits.axes_grid1 import ImageGrid
-    fig = plt.figure(figsize=(50,50))
+    fig = plt.figure(figsize=(80,80))
 
     grid = ImageGrid(fig, 111,
                      nrows_ncols=(rows,columns),
-                     axes_pad=0.5,
+                     axes_pad=0.6,
                      )
 
     for i,file in enumerate(paths):
