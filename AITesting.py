@@ -43,11 +43,8 @@ def get_model_summary(model, conn):
     
 #     model.summary(print_fn=lambda x: stream.write(x + '\n'))
 
-
-    
     summary_string = stream.getvalue()
     stream.close()
-    
     
     try:
         cur = conn.cursor()
@@ -97,35 +94,46 @@ def insert_model_bias_weight(model, conn):
     try:
         cur = conn.cursor()
         dt = datetime.now()
-                
-
+        nodenum = 0
+        
+        
+        cur.execute('INSERT INTO models(id, name, "createdAt", "updatedAt") VALUES (%s, %s, %s, %s)', (1, 'test', dt, dt,))
+        cur.execute('INSERT INTO configurations(id, name, "isOriginal", "layerNum", "activationFunction", regulation, "learningRate", "createdAt", "updatedAt", "modelId") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (1, 'test' , True, len(model.layers), 'actFunction', 'regulation', '00.0', dt, dt, '1'))  
+        
+        
         for layerNum, layer in enumerate(model.layers):
         
             name = model.layers[layerNum].name
-
-            if name.startswith( 'flatten' ):
-                layerNum = layerNum+1
-        
-            weights = model.layers[layerNum].get_weights()[0]
-            biases = model.layers[layerNum].get_weights()[1]        
-        
-            for toNeuronNum, bias in enumerate(biases):
-                print(f'{layerNum} B -> L{layerNum+1} N{toNeuronNum}: {bias}')                
-                #cur.execute('INSERT INTO neurons(bias, type, "activationFunction", "createdAt", "updatedAt") VALUES (%s, %s, %s, %s, %s)', ( double(bias) , name, 'actFunction', dt, dt,))
-
+            print("name", name)
+            cur.execute('INSERT INTO layers (id, name, "createdAt", "updatedAt", "configurationId") VALUES (%s, %s, %s, %s, %s)', ( layerNum, model.layers[layerNum].name , dt, dt, '1', ))
             
-            for fromNeuronNum, wgt in enumerate(weights):
-                for toNeuronNum, wgt2 in enumerate(wgt):
-                    print(f'L{layerNum}N{fromNeuronNum} -> L{layerNum+1}N{toNeuronNum}={wgt2}')
-                    cur.execute('INSERT INTO links(weight, "createdAt", "updatedAt", "sourceId", "destId") VALUES (%s, %s, %s, %s, %s  )', ( double(wgt2) , dt, dt, fromNeuronNum, toNeuronNum))
-                   
-    
+            if name.startswith( 'flatten' ):
+                print('Flatten Skip - flatten Layer does not have weights and biases.' )
+
+            else:
+                weights = model.layers[layerNum].get_weights()[0]
+                biases = model.layers[layerNum].get_weights()[1]        
+               
+                for toNeuronNum, bias in enumerate(biases):
+                    #print(f'{layerNum} B -> L{layerNum+1} N{toNeuronNum}: {bias}')
+                    nodenum = nodenum+1
+                    neuronid = "L" + str(layerNum+1)+"N"+str(toNeuronNum) 
+                    cur.execute('INSERT INTO neurons(id, bias, type, "activationFunction", "createdAt", "updatedAt", "layerId") VALUES (%s, %s, %s, %s, %s, %s, %s)', ( neuronid, double(bias) , name, 'actFunction', dt, dt, layerNum))
+
+                for fromNeuronNum, wgt in enumerate(weights):
+                    for toNeuronNum, wgt2 in enumerate(wgt):
+                        #print(f'L{layerNum}N{fromNeuronNum} -> L{layerNum+1}N{toNeuronNum}={wgt2}')
+                        fromNeuron = "L"+str(layerNum)+"N"+str(fromNeuronNum)
+                        toNeuron = "L"+str(layerNum+1)+"N"+str(toNeuronNum)
+                        linkid=fromNeuron+toNeuron
+                        cur.execute('INSERT INTO links(id, weight, "createdAt", "updatedAt", "sourceId", "destId") VALUES (%s, %s, %s, %s, %s , %s)', ( linkid, double(wgt2) , dt, dt, fromNeuron, toNeuron))
+
         conn.commit()
         cur.close()
     
     
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+    #except (Exception, psycopg2.DatabaseError) as error:
+        #print(error)
     finally:
         if conn is not None:
             conn.close()
