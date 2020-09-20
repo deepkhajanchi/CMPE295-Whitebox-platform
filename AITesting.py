@@ -4,10 +4,14 @@
 # In[6]:
 
 
-print('Model-Based AI Testing and Automation library imported')
+print('Model-Based AI Testing and Automation library imported ')
 import tensorflow as tf
 import numpy as np
 import io
+import psycopg2
+from datetime import datetime
+from numpy import *
+
 
 class callback(tf.keras.callbacks.Callback):
     def __init__(self):
@@ -21,7 +25,7 @@ class callback(tf.keras.callbacks.Callback):
     def MyCustomCallback():
         print('ccc')
     def on_epoch_end(self, epoch, logs=None):
-        #print('The average loss for epoch {} is {:7.2f} and mean absolute error is {:7.2f}.'.format(epoch, logs['loss'], logs['mae']))
+        print('The average loss for epoch {} is {:7.2f} and mean absolute error is {:7.2f}.'.format(epoch, logs['loss'], logs['mae']))
         print('The average loss for epoch {} is {:7.2f} and accuracy is {:7.2f}.'.format(epoch, logs['loss'], logs['accuracy']))
         for i in range(len(self.model.layers)):
             layername = self.model.layers[i].name;
@@ -34,13 +38,104 @@ class callback(tf.keras.callbacks.Callback):
             self.model.stop_training = True
         
         
-def get_model_summary(model):
+def get_model_summary(model, conn):
     stream = io.StringIO()
-    model.summary(print_fn=lambda x: stream.write(x + '\n'))
+    
+#     model.summary(print_fn=lambda x: stream.write(x + '\n'))
+
+
+    
     summary_string = stream.getvalue()
     stream.close()
+    
+    
+    try:
+        cur = conn.cursor()
+        dt = datetime.now()
+        print('PostgreSQL database version:')
+        #cur.execute('INSERT INTO models(id, name, "createdAt", "updatedAt") VALUES (%s, %s, %s, %s)', (2, 'test', dt, dt,))
+        #cur.execute('INSERT INTO configurations(id, name, "isOriginal", "layerNum", "activationFunction", regulation, "learningRate", "createdAt", "updatedAt", "modelId") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (1, 'test' , True, 3, 'actFunction', 'regulation', '00.0', dt, dt, '1'))  
+
+        for idx in range(len(model.layers)):
+            print(model.get_layer(index = idx).name)
+            cur.execute('INSERT INTO layers (name, "createdAt", "updatedAt", "configurationId") VALUES (%s, %s, %s, %s)', ( model.get_layer(index=idx).name , dt, dt, '1', ))
+       
+        
+        conn.commit()
+        cur.close()
+    
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Database connection closed.')
+        
     return summary_string
 
+def get_bias_weight_in_each_layer(model):
+    for layerNum, layer in enumerate(model.layers):
+        
+        name = model.layers[layerNum].name
+
+        if name.startswith( 'flatten' ):
+            layerNum = layerNum+1
+        
+        weights = model.layers[layerNum].get_weights()[0]
+        biases = model.layers[layerNum].get_weights()[1]        
+        
+        for toNeuronNum, bias in enumerate(biases):
+            print(f'{layerNum} B -> L{layerNum+1} N{toNeuronNum}: {bias}')
+
+            
+        for fromNeuronNum, wgt in enumerate(weights):
+            for toNeuronNum, wgt2 in enumerate(wgt):
+                print(f'L{layerNum}N{fromNeuronNum} -> L{layerNum+1}N{toNeuronNum}={wgt2}')
+
+                
+def insert_model_bias_weight(model, conn):
+    try:
+        cur = conn.cursor()
+        dt = datetime.now()
+                
+
+        for layerNum, layer in enumerate(model.layers):
+        
+            name = model.layers[layerNum].name
+
+            if name.startswith( 'flatten' ):
+                layerNum = layerNum+1
+        
+            weights = model.layers[layerNum].get_weights()[0]
+            biases = model.layers[layerNum].get_weights()[1]        
+        
+            for toNeuronNum, bias in enumerate(biases):
+                print(f'{layerNum} B -> L{layerNum+1} N{toNeuronNum}: {bias}')                
+                #cur.execute('INSERT INTO neurons(bias, type, "activationFunction", "createdAt", "updatedAt") VALUES (%s, %s, %s, %s, %s)', ( double(bias) , name, 'actFunction', dt, dt,))
+
+            
+            for fromNeuronNum, wgt in enumerate(weights):
+                for toNeuronNum, wgt2 in enumerate(wgt):
+                    print(f'L{layerNum}N{fromNeuronNum} -> L{layerNum+1}N{toNeuronNum}={wgt2}')
+                    cur.execute('INSERT INTO links(weight, "createdAt", "updatedAt", "sourceId", "destId") VALUES (%s, %s, %s, %s, %s  )', ( double(wgt2) , dt, dt, fromNeuronNum, toNeuronNum))
+                   
+    
+        conn.commit()
+        cur.close()
+    
+    
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Database connection closed.')
+        
+    return "finished"
+
+        
+
+            
 class EarlyStoppingAtMinLoss(tf.keras.callbacks.Callback):
     def __init__(self, patience=0):
         super(EarlyStoppingAtMinLoss, self).__init__()
