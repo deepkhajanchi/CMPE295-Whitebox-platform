@@ -57,7 +57,6 @@ def get_model_summary(model, conn):
             print(model.get_layer(index = idx).name)
             cur.execute('INSERT INTO layers (name, "createdAt", "updatedAt", "configurationId") VALUES (%s, %s, %s, %s)', ( model.get_layer(index=idx).name , dt, dt, '1', ))
        
-        
         conn.commit()
         cur.close()
     
@@ -89,7 +88,20 @@ def get_bias_weight_in_each_layer(model):
             for toNeuronNum, wgt2 in enumerate(wgt):
                 print(f'L{layerNum}N{fromNeuronNum} -> L{layerNum+1}N{toNeuronNum}={wgt2}')
 
-                
+import numpy
+from psycopg2.extensions import register_adapter, AsIs
+def addapt_numpy_float64(numpy_float64):
+    return AsIs(numpy_float64)
+def addapt_numpy_int64(numpy_int64):
+    return AsIs(numpy_int64)
+register_adapter(numpy.float64, addapt_numpy_float64)
+register_adapter(numpy.int64, addapt_numpy_int64)
+
+
+import numpy as np
+from psycopg2.extensions import register_adapter, AsIs
+
+
 def insert_model_bias_weight(model, conn):
     try:
         cur = conn.cursor()
@@ -109,8 +121,10 @@ def insert_model_bias_weight(model, conn):
             
             if name.startswith( 'flatten' ):
                 print('Flatten Skip - flatten Layer does not have weights and biases.' )
-
+            elif name.startswith('max_pooling2d'):
+                print('max pooling Skip ' )
             else:
+                print(layerNum)
                 weights = model.layers[layerNum].get_weights()[0]
                 biases = model.layers[layerNum].get_weights()[1]        
                
@@ -122,11 +136,29 @@ def insert_model_bias_weight(model, conn):
 
                 for fromNeuronNum, wgt in enumerate(weights):
                     for toNeuronNum, wgt2 in enumerate(wgt):
+                        #print('isinstance',isinstance(wgt2,np.ndarray))
                         #print(f'L{layerNum}N{fromNeuronNum} -> L{layerNum+1}N{toNeuronNum}={wgt2}')
                         fromNeuron = "L"+str(layerNum)+"N"+str(fromNeuronNum)
                         toNeuron = "L"+str(layerNum+1)+"N"+str(toNeuronNum)
-                        linkid=fromNeuron+toNeuron
-                        cur.execute('INSERT INTO links(id, weight, "createdAt", "updatedAt", "sourceId", "destId") VALUES (%s, %s, %s, %s, %s , %s)', ( linkid, double(wgt2) , dt, dt, fromNeuron, toNeuron))
+                        #print(f'L{layerNum}N{fromNeuronNum} -> L{layerNum+1}N{toNeuronNum}={wgt2}')
+                        if isinstance(wgt2,np.ndarray):
+                            for totoNeuronNum, wgt3 in enumerate(wgt2):
+                                totoNeuron =  "L"+str(layerNum+1)+"N"+str(totoNeuronNum)
+                                #print(f'L{layerNum}N{fromNeuronNum} -> L{layerNum+1}N{toNeuronNum} -> L{layerNum+1}N{totoNeuronNum} ={wgt3}')
+                                for tototoNeuronNum, wgt4 in enumerate(wgt3):
+                                    tototoNeuron = "L"+str(layerNum+1)+"N"+str(toNeuronNum)+"-"+str(totoNeuronNum)+"-"+str(tototoNeuronNum)
+                                    linkid=fromNeuron+tototoNeuron
+                                    #print(f'L{layerNum}N{fromNeuronNum} -> L{layerNum+1}N{toNeuronNum} -> L{layerNum+1}N{totoNeuronNum} ->L{layerNum+1}N{tototoNeuronNum} = {wgt4}')
+                                    cur.execute('INSERT INTO links(id, weight, "createdAt", "updatedAt", "sourceId", "destId") VALUES (%s, %s, %s, %s, %s , %s)', ( linkid, double(wgt4) , dt, dt, fromNeuron, tototoNeuronNum))
+                                
+                        #print(fromNeuron)
+                        #print(toNeuron)
+                        #print(double(wgt2))
+                        #print(dt)
+                        #print(linkid)
+                        else:
+                            linkid=fromNeuron+toNeuron
+                            cur.execute('INSERT INTO links(id, weight, "createdAt", "updatedAt", "sourceId", "destId") VALUES (%s, %s, %s, %s, %s , %s)', ( linkid, double(wgt2) , dt, dt, fromNeuron, toNeuron))
 
         conn.commit()
         cur.close()
