@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common functions to plot input data.
 
 def pca(X=np.array([]), num_dimensions=60):
   """

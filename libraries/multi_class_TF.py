@@ -1,7 +1,7 @@
 import tensorflow as tf
 
-
-# Build custom metrics 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Build custom metrics to get true positives of multi-classes
 class MulticlassTruePositives(tf.keras.metrics.Metric):
     def __init__(self, name='multiclass_true_positives', **kwargs):
         super(MulticlassTruePositives, self).__init__(name=name, **kwargs)

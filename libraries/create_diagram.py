@@ -9,6 +9,10 @@ import numpy as np
 import seaborn as sns
 from sklearn.metrics import confusion_matrix, classification_report
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common functions to plot accuracy, loss, and build confusion matrix during training, 
+### validating, and testing model.
+
 def draw_acc_loss(points, factor=0.9):
   
     drawed_points = []

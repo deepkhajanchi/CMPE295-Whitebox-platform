@@ -6,6 +6,8 @@ from keract import display_heatmaps
 import cv2
 import numpy as np
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Preprocessing inputted image to get activations and heatmaps.
 
 #### Create a numpy array for an inputted image
 def preprocess_image(img_path, input_model=None, rescale=255, resize=(256, 256)):

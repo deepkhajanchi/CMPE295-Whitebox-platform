@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scikitplot.metrics import plot_confusion_matrix, plot_roc
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common function to extract confusion matrix and ROC on each epoch.
 
 class PerformanceVisualizationCallback(Callback):
     def __init__(self, model, generator, steps, image_dir):

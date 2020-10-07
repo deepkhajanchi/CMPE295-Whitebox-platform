@@ -1,5 +1,5 @@
-
-
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common function to get all inbound and outbound nodes.
 
 def get_inbound_nodes(input_model):
     count = 0
