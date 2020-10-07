@@ -1,5 +1,8 @@
 import numpy as np
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common function to get paths of all misclassified images.
+
 def get_misclassified_images(input_model, gen, step):
     
     # Look for all misclassified images 
