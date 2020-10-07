@@ -2,7 +2,9 @@ from sys import executable, argv
 from subprocess import check_output
 from PyQt5.QtWidgets import QFileDialog, QApplication
 
-# Open a dialog to select a file on the disk
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Open a dialog to select an image on the disk to extract activations and heatmaps
+
 def gui_fname(directory='./'):
     """Open a file dialog, starting in the given directory, and return
     the chosen filename"""

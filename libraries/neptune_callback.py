@@ -5,8 +5,10 @@ import numpy as np
 from scikitplot.metrics import plot_confusion_matrix, plot_roc
 import matplotlib.pyplot as plt
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Call neptune logger to display multiple quality tracking diagrams.
 
-neptune.init('', api_token='')
+neptune.init('chittp/sandbox', api_token='')
 neptune.create_experiment(name='minimal_example')
 
 class NeptuneLoggerCallback(Callback):

@@ -1,5 +1,6 @@
 
-
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common functions to extract weights and bias of all layers.
 
 def extract_weights_bias(input_model):
     # Extract weights and bias on each layer

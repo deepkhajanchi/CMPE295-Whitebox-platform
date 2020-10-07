@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common functions to read and show samples of input data (display data samples in each class).
+
 def read_data(path, size):
     img = image.load_img(path, target_size=size)
     img = image.img_to_array(img)
@@ -37,7 +40,7 @@ def show_sample(data_source):
           ax.text(x=img_height*1.05, y=img_height//2, s=cate, verticalalignment='center')
         i += 1
 
-    figure.show();
+    figure.savefig('test.png');
     
 def load_img_into_narr(train_label, bin_dir, numpy):
     # Read all images into numpy array

@@ -8,6 +8,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from setup import data_normalization
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common functions to create data folders, build dataset, collect data in each class, and visualize input  data.
+
 def create_data_folders():
     
     global data

@@ -1,6 +1,8 @@
 
 import tensorflow as tf
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common function to get average training time on each epoch.
 
 class TimeHistory(tf.keras.callbacks.Callback):
     def on_train_begin(self, logs={}):

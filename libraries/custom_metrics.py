@@ -1,5 +1,6 @@
 from keras import backend as K
-
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Define more metrics to add into model besides accuracy, loss, mean_absolute_error, etc.
 
 def recall(y_true, y_pred):
     y_true = K.ones_like(y_true) 

@@ -1,6 +1,8 @@
 import os
 import math
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common functions to normalize image names and split data into train, test, and validation folders.
 
 def rename_images(path, image_class):
   """
@@ -17,7 +19,8 @@ def rename_images(path, image_class):
 
 
 def train_test_split_data(data_source, class_name, val_size=0.2, test_size=0.2):
-  
+  """ Split data into train, validation, and test folders """
+
   assert class_name in ['phylloxera', 'mealybug', 'black_measles', 'black_rot', 'leaf_blight', 'healthy'], \
     "Class name is invalid!"
   

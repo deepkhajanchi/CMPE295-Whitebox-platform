@@ -1,5 +1,7 @@
 import tensorflow as tf
 
+### Chi Tran: Master of Science - Software Engineering - SJSU - CMPE 295B - Fall 2020
+### Common function to get all hidden layers and layer information.
 
 def print_hidden_layers(input_model):
     tf.compat.v1.disable_eager_execution()
