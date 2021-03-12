@@ -9,3 +9,9 @@
 ## [Project poster](https://github.com/deepkhajanchi/CMPE295-Whitebox-platform/blob/master/Poster.pdf)
 
 ## [Project Report](https://github.com/deepkhajanchi/CMPE295-Whitebox-platform/blob/master/CMPE%20295B%20Final%20Project%20Report%20-%20Project%20Outline.pdf)
+
+## [Project's Visualization Repository](https://github.com/deepkhajanchi/CMPE295-Whitebox-platform-visualization/tree/master)
+
+## [Project's Data Services Repository](https://github.com/deepkhajanchi/CMPE295-Whitebox-platform-data-service)
+
+## [Project's Machine Learning Services Repository](https://github.com/deepkhajanchi/CMPE295-Whitebox-platform-ML-services)
